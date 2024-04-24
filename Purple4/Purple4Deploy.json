@@ -5,13 +5,13 @@
     "_generator": {
       "name": "bicep",
       "version": "0.26.170.59819",
-      "templateHash": "16679135872723919976"
+      "templateHash": "17550576155470607892"
     }
   },
   "parameters": {
     "adminUsername": {
       "type": "string",
-      "defaultValue": "Red1"
+      "defaultValue": "Purple4"
     },
     "sshPublicKey": {
       "type": "securestring"
@@ -22,10 +22,10 @@
     }
   },
   "variables": {
-    "vmName": "Red1",
+    "vmName": "Purple4",
     "vnetName": "VmFleetVnet",
     "subnetName": "[format('{0}Subnet', variables('vmName'))]",
-    "subnetAddressPrefix": "10.10.1.0/24",
+    "subnetAddressPrefix": "10.10.4.0/24",
     "publicIPAddressName": "[format('{0}PublicIP', variables('vmName'))]",
     "unique": "[uniqueString(variables('vmName'), resourceGroup().id)]",
     "domainNameLabel": "[format('{0}-{1}', toLower(variables('vmName')), replace(toLower(variables('unique')), '-', ''))]",
