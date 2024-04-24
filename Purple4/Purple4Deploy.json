@@ -143,7 +143,6 @@
           "linuxConfiguration": "[variables('linuxConfiguration')]"
         },
         "securityProfile": {
-          "encryptionAtHost": true,
           "securityType": "TrustedLaunch",
           "uefiSettings": {
             "secureBootEnabled": true,

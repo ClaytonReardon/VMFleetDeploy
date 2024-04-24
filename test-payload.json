@@ -3,9 +3,9 @@
     "Repairs Needed": {
         "Thrusters": true,
         "Blast Shield": false,
-        "Landing Gear": false,
+        "Landing Gear": true,
         "Warp Drive": false,
-        "Radar": false
+        "Radar": true
     },
     "Supplies Needed": {
         "Rations": "12",
