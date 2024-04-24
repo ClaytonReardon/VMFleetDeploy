@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "localIP": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/79d60d7a-094d-4008-bf79-f4328565faea/resourceGroups/VmFleetRG/providers/Microsoft.KeyVault/vaults/VmFleetKV"
+        },
+        "secretName": "LocalIp"
+      }
+    }
+  }
+}

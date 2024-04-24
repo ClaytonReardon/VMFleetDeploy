@@ -1,0 +1,80 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.26.170.59819",
+      "templateHash": "7268710701413187579"
+    }
+  },
+  "parameters": {
+    "localIP": {
+      "type": "securestring"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    }
+  },
+  "variables": {
+    "vnetName": "VmFleetVnet",
+    "nsgName": "VmFleetNSG",
+    "vnetAddressPrefix": "10.10.0.0/16"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2023-04-01",
+      "name": "[variables('nsgName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "AllowSshIn",
+            "properties": {
+              "priority": 100,
+              "protocol": "TCP",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourceApplicationSecurityGroups": [],
+              "destinationApplicationSecurityGroups": [],
+              "sourceAddressPrefix": "[parameters('localIP')]",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "22"
+            }
+          },
+          {
+            "name": "AllowIcmpIn",
+            "properties": {
+              "priority": 200,
+              "protocol": "ICMP",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourceApplicationSecurityGroups": [],
+              "destinationApplicationSecurityGroups": [],
+              "sourceAddressPrefix": "[parameters('localIP')]",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "*"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2023-04-01",
+      "name": "[variables('vnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vnetAddressPrefix')]"
+          ]
+        }
+      }
+    }
+  ]
+}
