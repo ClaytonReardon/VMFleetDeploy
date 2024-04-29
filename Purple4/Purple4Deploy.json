@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.26.170.59819",
-      "templateHash": "17550576155470607892"
+      "templateHash": "1169332485827731098"
     }
   },
   "parameters": {
@@ -14,6 +14,12 @@
       "defaultValue": "Purple4"
     },
     "sshPublicKey": {
+      "type": "securestring"
+    },
+    "storageAccountName": {
+      "type": "securestring"
+    },
+    "storageAccountKey": {
       "type": "securestring"
     },
     "location": {
@@ -34,6 +40,10 @@
     "nsgId": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
     "vmSize": "Standard_B1ls",
     "osDiskType": "Standard_LRS",
+    "storageEndpointSuffix": "[environment().suffixes.storage]",
+    "scriptContainer": "vmscripts",
+    "scriptBlobName": "Purple4Script.sh",
+    "scriptUrl": "[format('https://{0}.blob.{1}/{2}/{3}', parameters('storageAccountName'), variables('storageEndpointSuffix'), variables('scriptContainer'), variables('scriptBlobName'))]",
     "linuxConfiguration": {
       "disablePasswordAuthentication": true,
       "ssh": {
@@ -157,6 +167,32 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2023-09-01",
+      "name": "[format('{0}/{1}', variables('vmName'), 'CustomScriptExtension')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "CustomScript",
+        "typeHandlerVersion": "2.1",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[variables('scriptUrl')]"
+          ],
+          "commandToExecute": "[format('bash {0}', variables('scriptBlobName'))]"
+        },
+        "protectedSettings": {
+          "storageAccountName": "[parameters('storageAccountName')]",
+          "storageAccountKey": "[parameters('storageAccountKey')]",
+          "commandToExecute": "[concat('bash', variables('scriptBlobName'))]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
       ]
     }
   ],

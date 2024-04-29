@@ -9,6 +9,22 @@
         },
         "secretName": "SSh-Public-Key"
       }
+    },
+    "storageAccountName": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/79d60d7a-094d-4008-bf79-f4328565faea/resourceGroups/VmFleetRG/providers/Microsoft.KeyVault/vaults/VmFleetKV"
+        },
+        "secretName": "storageAccountName"
+      }
+    },
+    "storageAccountKey": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/79d60d7a-094d-4008-bf79-f4328565faea/resourceGroups/VmFleetRG/providers/Microsoft.KeyVault/vaults/VmFleetKV"
+        },
+        "secretName": "storageAccountKey"
+      }
     }
   }
 }

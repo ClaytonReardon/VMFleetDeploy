@@ -2,6 +2,10 @@ var vmName = 'Blue2'
 param adminUsername string = 'Blue2'
 @secure()
 param sshPublicKey string
+@secure()
+param storageAccountName string
+@secure()
+param storageAccountKey string
 var vnetName  = 'VmFleetVnet'
 var subnetName = '${vmName}Subnet'
 var subnetAddressPrefix = '10.10.2.0/24'
@@ -14,6 +18,10 @@ var nsgName = 'VmFleetNSG'
 var nsgId = resourceId('Microsoft.Network/networkSecurityGroups', nsgName)
 var vmSize = 'Standard_B1ls'
 var osDiskType = 'Standard_LRS'
+var storageEndpointSuffix = environment().suffixes.storage // Uses `environment()` to get appropriate domain suffix based on environment
+var scriptContainer = 'vmscripts'
+var scriptBlobName = 'Green34Script.sh'
+var scriptUrl = 'https://${storageAccountName}.blob.${storageEndpointSuffix}/${scriptContainer}/${scriptBlobName}'
 var linuxConfiguration = {
   disablePasswordAuthentication: true
   ssh: {
@@ -130,6 +138,27 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-09-01' = {
       bootDiagnostics: {
         enabled: true
       }
+    }
+  }
+}
+resource vmExtension 'Microsoft.Compute/virtualMachines/extensions@2023-09-01' = {
+  parent: virtualMachine
+  name: 'CustomScriptExtension'
+  location: location
+  properties: {
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'CustomScript'
+    typeHandlerVersion: '2.1'
+    autoUpgradeMinorVersion: true
+    settings: {
+      fileUris: [
+        scriptUrl
+      ]
+      commandToExecute: 'bash ${scriptBlobName}'
+    }
+    protectedSettings: {
+      storageAccountName: storageAccountName
+      storageAccountKey: storageAccountKey
     }
   }
 }
