@@ -42,7 +42,7 @@
     "osDiskType": "Standard_LRS",
     "storageEndpointSuffix": "[environment().suffixes.storage]",
     "scriptContainer": "vmscripts",
-    "scriptBlobName": "Green34Script.sh",
+    "scriptBlobName": "Blue2Script.sh",
     "scriptUrl": "[format('https://{0}.blob.{1}/{2}/{3}', parameters('storageAccountName'), variables('storageEndpointSuffix'), variables('scriptContainer'), variables('scriptBlobName'))]",
     "linuxConfiguration": {
       "disablePasswordAuthentication": true,
