@@ -2,9 +2,9 @@
     "ShipName": "CosmicCommander",
     "Repairs Needed": {
         "Thrusters": true,
-        "Blast Shield": false,
+        "Blast Shield": true,
         "Landing Gear": true,
-        "Warp Drive": false,
+        "Warp Drive": true,
         "Radar": true
     },
     "Supplies Needed": {

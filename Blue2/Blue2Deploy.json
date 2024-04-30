@@ -182,13 +182,12 @@
         "settings": {
           "fileUris": [
             "[variables('scriptUrl')]"
-          ],
-          "commandToExecute": "[format('bash {0}', variables('scriptBlobName'))]"
+          ]
         },
         "protectedSettings": {
           "storageAccountName": "[parameters('storageAccountName')]",
           "storageAccountKey": "[parameters('storageAccountKey')]",
-          "commandToExecute": "[concat('bash', variables('scriptBlobName'))]"
+          "commandToExecute": "[format('bash {0}', variables('scriptBlobName'))]"
         }
       },
       "dependsOn": [
